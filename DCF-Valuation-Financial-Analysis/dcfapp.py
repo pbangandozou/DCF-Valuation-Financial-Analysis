@@ -19,6 +19,26 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+if "show_welcome" not in st.session_state:
+    st.session_state.show_welcome = True
+    
+if st.session_state.show_welcome:
+    @st.dialog("Welcome to DCF Valuation")
+    def welcome_dialog():
+        st.markdown("""
+**What it is:** This is a Discounted Cash Flow (DCF) model that uses financial data from public companies to estimate their value. The model pulls financial statements using yfinance, looks at past financial results, and projects future cash flow. It includes Bear, Base, and Bull cases and shows how changes in WACC and growth affect the valuation.
+
+**How to use it:** Enter a public company ticker and run the analysis. You can change assumptions such as the risk-free rate, equity risk premium, growth rate, and terminal growth rate. The model then calculates an estimated share price and company value.
+
+**Why it matters:** Building a DCF model manually takes time, especially when pulling financial statements and testing different assumptions. This project automates much of that work and makes it easier to test different scenarios and see how they change a company's estimated value.
+        """)
+
+        if st.button("Continue to DCF", use_container_width=True):
+            st.session_state.show_welcome = False
+            st.rerun()
+
+    welcome_dialog()
+
 # ============================================================
 # STYLING (same green system)
 # ============================================================
